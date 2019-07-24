@@ -15,6 +15,8 @@ def parse_args():
     parser.add_argument('log_dir', type=str, help='input false wakeup log for wav_list')
     parser.add_argument('out_dir', type=str, help='output pcm dir')
     args = parser.parse_args()
+    if not os.path.exists(args.out_dir):
+        os.mkdir(args.out_dir)
     return args
 
 
