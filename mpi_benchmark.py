@@ -58,7 +58,7 @@ def task(part_id, idx_st, idx_ed, total_part):
                 '--detectp.apply-frontend=true '  + \
                 '--sensitivity-str="%s" ' % arguments['sen'] + \
                 '--high-sensitivity-str="%s" ' % arguments['hi_sen'] + \
-                '--resource-filename=%s %s %s > %s 2>&1' % (resource_path,
+                '--resource-filename=%s %s %s > %s 2>&1' % (resource_path, 
                         model_list_fn, cur_list_fn, log_fn)
         #print(str_cmd)
         os.system(str_cmd)
