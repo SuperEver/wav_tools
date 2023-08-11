@@ -11,6 +11,7 @@ logger_level = logging.INFO
 logging.basicConfig(level=logger_level, format='%(asctime)s - %(name)s -%(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+
 def parse_args():
     parser = argparse.ArgumentParser('Select wav segments from one wav file by a time label')
     parser.add_argument('wav_fn', type=str, help='wav path')
@@ -38,12 +39,12 @@ def process(args):
     if data_bytes + 44 != file_size:
         logger.error('Wav file %s is not standard 44 bytes header wav file' % args.wav_fn)
         exit(1)
- 
+
     labf = open(args.label_fn)
     seg_time_list = []
     for line in labf:
         word_arr = line.strip().split(',')
-        try :
+        try:
             st_sec = float(word_arr[0])
             ed_sec = float(word_arr[1])
             seg_time_list.append((st_sec, ed_sec))
@@ -53,13 +54,13 @@ def process(args):
     labf.close()
     global_seg_index = 1
     for (st_sec, ed_sec) in seg_time_list:
-        st_bytes = int((st_sec-0.5) * 16000 * 2)
-        ed_bytes = int((ed_sec+0.5) * 16000 * 2)
+        st_bytes = int((st_sec - 0.5) * 16000 * 2)
+        ed_bytes = int((ed_sec + 0.5) * 16000 * 2)
         st_bytes = max(0, st_bytes)
         ed_bytes = min(ed_bytes, data_bytes)
-        wav_stream.seek(st_bytes+44, 0)
+        wav_stream.seek(st_bytes + 44, 0)
         seg_buf = wav_stream.read(ed_bytes - st_bytes)
-        seg_header = gen_wav_header((ed_bytes - st_bytes)//2)
+        seg_header = gen_wav_header((ed_bytes - st_bytes) // 2)
         seg_fn = os.path.join(args.out_dir, '%05d.wav' % global_seg_index)
         outf = open(seg_fn, 'wb')
         outf.write(seg_header)
@@ -71,4 +72,3 @@ def process(args):
 
 args = parse_args()
 process(args)
-

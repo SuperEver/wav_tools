@@ -4,9 +4,12 @@ import numpy as np
 import os
 import argparse
 
-def gen_wav_header(num_samples:int):
+
+def gen_wav_header(num_samples: int):
     # 16K 16bits mono signed-integer
-    wav_header = bytearray(b'RIFF$\xff\x00\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xff\x00\x00')
+    wav_header = bytearray(
+        b'RIFF$\xff\x00\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x80>\x00\x00\x00}\x00\x00\x02\x00\x10\x00data\x00\xff\x00\x00'
+    )
     byte_len = 2 * num_samples
     len1 = byte_len
     len2 = len1 + 36
@@ -15,6 +18,7 @@ def gen_wav_header(num_samples:int):
     wav_header[4:8] = str2
     wav_header[40:44] = str1
     return bytes(wav_header)
+
 
 def pcm_to_wav(pcm_filepath, wav_filepath):
     '''
@@ -29,14 +33,15 @@ def pcm_to_wav(pcm_filepath, wav_filepath):
         f.write(wav_header)
         f.write(pcm_data.tobytes())
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Format pcm(16K,16bits,mono,signed-integer) file to wav file')
     parser.add_argument('pcm_file', type=str, action='store', help='pcm file path(input)')
     parser.add_argument('wav_file', type=str, action='store', help='wav file path(output)')
     args = parser.parse_args()
     return args
-    
+
+
 if __name__ == '__main__':
     args = parse_args()
     pcm_to_wav(args.pcm_file, args.wav_file)
-

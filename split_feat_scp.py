@@ -10,6 +10,7 @@ def logging_config():
     logger_level = logging.INFO
     logging.basicConfig(level=logger_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+
 def parse_args():
     parser = argparse.ArgumentParser('Split feats.scp to train_feats.scp and test_feats.scp')
     parser.add_argument('feats_scp', type=str, help='input feats.scp')
@@ -18,6 +19,7 @@ def parse_args():
     parser.add_argument('--test_ratio', type=float, default=0.02, help='ratio of utterances to use as test part')
     args = parser.parse_args()
     return args
+
 
 def process(args):
     logger = logging.getLogger(__name__)
@@ -51,10 +53,11 @@ def process(args):
         if ori_key_list[i] in key_train_set:
             outf_train.write(ori_line)
         else:
-            assert  ori_key_list[i] in key_test_set
+            assert ori_key_list[i] in key_test_set
             outf_test.write(ori_line)
     outf_train.close()
     outf_test.close()
+
 
 if __name__ == '__main__':
     logging_config()

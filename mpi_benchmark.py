@@ -21,16 +21,17 @@ snowboy_path = '/home/zhangyongchao/snowboy/'
 eval_path = snowboy_path + '/src/bin/snowboy-universal-eval'
 resource_path = snowboy_path + '/scripts/python_api/resources/universal/universal_detect.res'
 
+
 ## 解析参数
 def parse_args():
     parser = argparse.ArgumentParser('run snowboy-unversal-detect multi-processing')
-    parser.add_argument('wav_list',type=str, help='wav list to be benchmark')
-    parser.add_argument('model',type=str, help='model file to be benchmark')
-    parser.add_argument('log_dir',type=str, help='output log dir for result of benchmark')
-    parser.add_argument('--tmp_dir',type=str,default='./tmps')
-    parser.add_argument('-nj','--multiprocessing',type=int,default=24, help='number of parallel thread')
-    parser.add_argument('--sen',type=str,default='0.5', help='sensitivity')
-    parser.add_argument('--hi_sen',type=str,default='0.5', help='high sensitivity')
+    parser.add_argument('wav_list', type=str, help='wav list to be benchmark')
+    parser.add_argument('model', type=str, help='model file to be benchmark')
+    parser.add_argument('log_dir', type=str, help='output log dir for result of benchmark')
+    parser.add_argument('--tmp_dir', type=str, default='./tmps')
+    parser.add_argument('-nj', '--multiprocessing', type=int, default=24, help='number of parallel thread')
+    parser.add_argument('--sen', type=str, default='0.5', help='sensitivity')
+    parser.add_argument('--hi_sen', type=str, default='0.5', help='high sensitivity')
 
     args = vars(parser.parse_args())
 
@@ -58,7 +59,7 @@ def task(part_id, idx_st, idx_ed, total_part):
                 '--detectp.apply-frontend=true '  + \
                 '--sensitivity-str="%s" ' % arguments['sen'] + \
                 '--high-sensitivity-str="%s" ' % arguments['hi_sen'] + \
-                '--resource-filename=%s %s %s > %s 2>&1' % (resource_path, 
+                '--resource-filename=%s %s %s > %s 2>&1' % (resource_path,
                         model_list_fn, cur_list_fn, log_fn)
         #print(str_cmd)
         os.system(str_cmd)
@@ -74,7 +75,7 @@ if __name__ == '__main__':
         f.write(arguments['model'])
 
     ## 加载wav_list
-    with open(arguments['wav_list'],'r') as fp:
+    with open(arguments['wav_list'], 'r') as fp:
         wav_list_lines = fp.readlines()
 
     logger.info('%d wav files in feat_scp' % len(wav_list_lines))

@@ -21,7 +21,7 @@ def main(args):
     os.system(str_cmd)
     vidcap = cv2.VideoCapture(args.video_in)
     num_frames = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT))
-    fps = int(vidcap.get(cv2.CAP_PROP_FPS)
+    fps = int(vidcap.get(cv2.CAP_PROP_FPS))
     print(f'num_frames = {num_frames}, fps = {fps}')
     fps = vidcap.get(cv2.CAP_PROP_FPS)
 
